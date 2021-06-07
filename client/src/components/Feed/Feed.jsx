@@ -1,5 +1,6 @@
 import React from 'react'
 import Post from '../../components/Post/Post'
+import News from '../../components/News/News'
 import './Feed.css'
 
 const Feed = () => {
@@ -7,6 +8,13 @@ const Feed = () => {
         <div className="feed_main_container">
             <div className="feed_wrapper">
                 <Post />
+                <News/>
+                <News/>
+                <News/>
+                <News/>
+                <News/>
+                <News/>
+                <News/>
             </div>
         </div>
     )
