@@ -25,6 +25,7 @@ const Post = () => {
                             <span className="postIconDetail">Feelings</span>
                         </div>
                     </div>
+                    <button type="button" className="share">Share</button>
                 </div>
             </div>
         </div>
