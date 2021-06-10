@@ -1,9 +1,17 @@
 import React from 'react'
 import {Home, Person, ExitToApp} from '@material-ui/icons';
 import Tooltip from '@material-ui/core/Tooltip';
+import {userLogoutAction} from '../../actions/userActions'
+import {useDispatch} from 'react-redux'
 import './Navbar.css'
 
+
 const Navbar = () => {
+    const dispatch = useDispatch()
+    const onClickHandler=(e)=>{
+        e.preventDefault()
+        dispatch(userLogoutAction())
+    }
     return (
         <>
             <nav className="main_nav_container">
@@ -24,7 +32,7 @@ const Navbar = () => {
                </div>
                <div className="right_section">
                     <div className="logout_container">
-                        <Tooltip title={<h3>LOGOUT</h3>}><ExitToApp className="logout" /></Tooltip>
+                        <Tooltip title={<h3>LOGOUT</h3>}><ExitToApp onClick={onClickHandler} className="logout" /></Tooltip>
                     </div>
                </div>
             </nav>

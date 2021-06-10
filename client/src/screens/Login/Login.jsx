@@ -33,7 +33,7 @@ const Login=({history})=>{
                         <div className="right_container">
                             <form onSubmit={onSubmitHandler} className="form_container">
                                 <input onChange={(e)=> setemail(e.target.value)} placeholder="Enter Email" type="text" className="login_input" />
-                                <input onChange={(e)=> setpassword(e.target.value)} placeholder="Enter Password" type="text" className="login_input" />
+                                <input onChange={(e)=> setpassword(e.target.value)} placeholder="Enter Password" type="password" className="login_input" />
                                 <button type="submit" className="login_button">Sign Up</button>
                                 <hr className="hr"/>
                                 <button className="createaccount">
