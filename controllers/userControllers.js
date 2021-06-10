@@ -1,6 +1,7 @@
 const errorAsync = require('express-async-handler')
 const User = require('../models/userModel')
 const bcrypt = require('bcryptjs')
+const generateToken= require('../config/generateToken')
 
 //login
 const login = errorAsync(async (req, res) => {
@@ -8,7 +9,16 @@ const login = errorAsync(async (req, res) => {
         const { email, password } = await req.body
         const user = await User.findOne({ email })
         if (user && await user.comparePassword(password)) {
-            res.status(200).json(user)
+            res.status(200).json({
+                _id: user._id,
+                username: user.username,
+                email: user.email,
+                profilePicture: user.profilePicture || '',
+                coverPicture: user.coverPicture || '',
+                followers: user.followers || [],
+                followings: user.followings || [],
+                token: generateToken(user._ids)
+            })
         } else {
             res.status(404)
             throw new Error('INVALID CREDIENTIALS')
@@ -34,7 +44,11 @@ const register = errorAsync(async (req, res) => {
             _id: user._id,
             username: user.username,
             email: user.email,
-            password: user.password
+            profilePicture: user.profilePicture,
+            coverPicture: user.coverPicture,
+            followers: user.followers,
+            followings: user.followings,
+            token: generateToken(user._ids)
         })
     } catch (error) {
         res.status(400)
@@ -51,7 +65,12 @@ const update = errorAsync(async (req, res) => {
                 req.body.password = await bcrypt.hash(req.body.password, salt)
             }
             const user = await User.findByIdAndUpdate(req.params.id, { $set: req.body })
-            await res.status(200).json(user)
+            await res.status(200).json({
+                _id: user._id,
+                username: user.username,
+                email: user.email,
+                token: generateToken(user._id)
+            })
         } catch (error) {
             res.status(400)
             throw new Error(error)
