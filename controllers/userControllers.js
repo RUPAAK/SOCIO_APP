@@ -80,6 +80,16 @@ const update = errorAsync(async (req, res) => {
         throw new Error('CANNOT RUN UPDATE')
     }
 })
+//uplaod cover profile
+const profileCover= errorAsync(async(req, res)=>{
+    const user= await User.findById(req.params.id)
+
+    console.log(req.files)
+    user.profilePicture=  `http://localhost:5000/profile/${req.files[0].filename}`
+    user.coverPicture=  `http://localhost:5000/profile/${req.files[1].filename}`
+    const updatedUser= await user.save()
+    res.status(201).json(updatedUser)
+})
 
 //deleteuser
 const deleteUser = errorAsync(async (req, res) => {
@@ -100,8 +110,16 @@ const deleteUser = errorAsync(async (req, res) => {
 //getuser
 const getUser= errorAsync(async(req, res)=>{
     try {
+
         const user= await User.findById(req.params.id)
-        res.status(200).json(user)
+        res.status(200).json({
+            _id: user._id,
+            profilePicture: user.profilePicture,
+            coverPicture: user.coverPicture,
+            email: user.email,
+            followers: user.followers,
+            followings: user.followings
+        })
     } catch (error) {
         res.status(400)
         throw new Error(error)
@@ -155,4 +173,4 @@ const unFollow= errorAsync(async(req, res)=>{
     }
 })
 
-module.exports = { login, register, update, deleteUser, getUser, follow, unFollow }
+module.exports = { login, register, update, deleteUser, getUser, follow, unFollow,profileCover}
