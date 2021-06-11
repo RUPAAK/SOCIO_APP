@@ -58,9 +58,12 @@
     width: 200px;
 }
 .createaccount{
-    margin: 0 auto;
     width: 180px;
     height: 37px;
     background: rgb(6, 151, 18);
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
 }
