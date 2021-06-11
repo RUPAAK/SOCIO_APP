@@ -24,6 +24,7 @@ app.use(morgan('common'))
 
 app.use('/api/users', userRoutes)
 app.use('/api/posts', postRoutes)
+app.use('/profile', express.static('uploads/profile'))
 
 Database()
 

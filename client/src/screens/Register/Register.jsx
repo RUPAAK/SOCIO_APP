@@ -31,7 +31,7 @@ const Register = ({ history }) => {
                     </div>
                     <div className="right_container">
                         <form onSubmit={onSubmitHandler} className="form_container">
-                            {userDetails? (<h3>Register Successfull</h3>): error? (<h3>{error}</h3>): ''}
+                            {userDetails? (<h3>Register Successfull</h3>): error? (<h3>{error}</h3>): (<h3>Login</h3>)}
                             <input onChange={(e) => setusername(e.target.value)} placeholder="Enter Username" type="text" className="register_input" />
                             <input onChange={(e) => setemail(e.target.value)} placeholder="Enter Email" type="email" className="register_input" />
                             <input onChange={(e) => setpassword(e.target.value)} placeholder="Enter Password" type="password" className="register_input" />
