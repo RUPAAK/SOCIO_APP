@@ -5,16 +5,18 @@ import { userLogoutAction } from '../../actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import './Navbar.css'
+import { useHistory } from "react-router-dom";
 
 
-const Navbar = () => {
+const Navbar = ({}) => {
+    let history = useHistory();
     const dispatch = useDispatch()
     const userLoginDetails = useSelector(state => state.userLoginDetails)
     const { error, userDetails, loading } = userLoginDetails
 
     const onClickHandler = (e) => {
-        e.preventDefault()
         dispatch(userLogoutAction())
+        history.push('/login')
     }
     return (
         <>
@@ -30,7 +32,7 @@ const Navbar = () => {
                                 <Tooltip title={<h3>HOME</h3>}><Home className="icon" /></Tooltip>
                             </div>
                         </Link>
-                        <Link to={userDetails? `profile/${userDetails._id}`: ''}>
+                        <Link to={userDetails? `profile/${userDetails._id}`: '/'}>
                             <div className="icons_list">
                                 <Tooltip title={<h3>PROFILE</h3>}><Person className="icon" /></Tooltip>
                             </div>

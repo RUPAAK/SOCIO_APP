@@ -18,11 +18,11 @@ const Profile = () => {
                 <div className="profile_container">
                     <div className="top-container">
                         <div className="img-container">
-                            <img src="/uploads/posts/a.jpeg" alt="" className="cover" />
+                            <img src={userDetails.coverPicture} alt="" className="cover" />
                             <div className="frame"></div>
                         </div>
                         <div className="details">
-                            <img src="/uploads/posts/a.jpeg" alt="" className="profile" />
+                            <img src={userDetails.profilePicture} alt="" className="profile" />
                             <p className="username">{userDetails.username}</p>
                         </div>
                     </div>
