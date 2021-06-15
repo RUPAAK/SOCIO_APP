@@ -1,15 +1,26 @@
-const errorAsync= require('express-async-handler')
-const Post= require('../models/postModels')
-const User= require('../models/userModel')
+const errorAsync = require('express-async-handler')
+const Post = require('../models/postModels')
+const User = require('../models/userModel')
+const multer = require('multer')
 
 
 //createPost
-const createPost= errorAsync(async(req, res)=>{
-    const newPost= await new Post(req.body)
-    try{
-        const savedPost= await newPost.save()
-        res.status(200).json(savedPost)
-    }catch(error){
+const createPost = errorAsync(async (req, res) => {
+    const { userId, desc } = await req.body
+    const img = req.file.filename
+    console.log(req.file)
+    try {
+        const newPost = new Post({ userId, desc, img })
+        const savedPost = await newPost.save()
+        // const imageUrl= `${process.env.APP_BASE_URL}/${req.file.filename}`
+        console.log(req.file.filename)
+        console.log(savedPost.img)
+        res.status(200).json({
+            userId: savedPost.userId,
+            desc: savedPost.desc,
+            img: `${process.env.APP_BASE_URL}/post/${savedPost.img}`,
+        })
+    } catch (error) {
         res.status(500)
         throw new Error(error)
     }
@@ -17,38 +28,38 @@ const createPost= errorAsync(async(req, res)=>{
 
 
 //updatepost
-const updatePost= errorAsync(async(req, res)=>{
-    const post= await Post.findById(req.params.id)
-    if(post.userId=== req.body.userId){
-        await post.updateOne({$set: req.body})
+const updatePost = errorAsync(async (req, res) => {
+    const post = await Post.findById(req.params.id)
+    if (post.userId === req.body.userId) {
+        await post.updateOne({ $set: req.body })
         res.status(200).json('POST IS UPDATED')
-    }else{
+    } else {
         res.status(403)
         throw new Error('NO ACCESS TO POST')
     }
 })
 
 //deletepost
-const deletePost= errorAsync(async(req, res)=>{
-    const post= await Post.findById(req.params.id)
-    if(post.userId=== req.body.userId){
+const deletePost = errorAsync(async (req, res) => {
+    const post = await Post.findById(req.params.id)
+    if (post.userId === req.body.userId) {
         await post.deleteOne()
         res.status(200).json('POST IS DELETED')
-    }else{
+    } else {
         res.status(403)
         throw new Error('NO ACCESS TO POST')
     }
 })
 
 //like-dislikepost
-const likePost= errorAsync(async(req, res)=>{
+const likePost = errorAsync(async (req, res) => {
     try {
-        const post= await Post.findById(req.params.id)
-        if(!post.likes.includes(req.body.userId)){
-            await post.updateOne({$push: {likes: req.body.userId}})
+        const post = await Post.findById(req.params.id)
+        if (!post.likes.includes(req.body.userId)) {
+            await post.updateOne({ $push: { likes: req.body.userId } })
             res.status(200).json('POST LIKED')
-        }else{
-            await post.updateOne({$pull: {likes: req.body.userId}})
+        } else {
+            await post.updateOne({ $pull: { likes: req.body.userId } })
             res.status(200).json('POST DISLIKED')
         }
     } catch (error) {
@@ -59,9 +70,9 @@ const likePost= errorAsync(async(req, res)=>{
 
 
 //getonepost
-const getPost= errorAsync(async(req, res)=>{
+const getPost = errorAsync(async (req, res) => {
     try {
-        const post= await Post.findById(req.params.id)
+        const post = await Post.findById(req.params.id)
         res.status(200).json(post)
     } catch (error) {
         res.status(400)
@@ -71,23 +82,23 @@ const getPost= errorAsync(async(req, res)=>{
 
 //timelinepost
 
-const getPosts= errorAsync(async(req, res)=>{
+const getPosts = errorAsync(async (req, res) => {
     try {
-        const currentUser= await User.findById(req.body.userId)
-        const userPosts= await Post.find({userId: currentUser._id})
-        const friendPost= await Promise.all(
-            currentUser.followings.map(friendId=> {
-                return(
-                    Post.find({userId: friendId})
+        const currentUser = await User.findById(req.body.userId)
+        const userPosts = await Post.find({ userId: currentUser._id })
+        const friendPost = await Promise.all(
+            currentUser.followings.map(friendId => {
+                return (
+                    Post.find({ userId: friendId })
                 )
             })
         )
         res.json(userPosts.concat(...friendPost))
-    } catch (error) {   
+    } catch (error) {
         res.status(400)
         throw new Error(error)
     }
 })
 
 
-module.exports= {createPost, updatePost,deletePost, likePost, getPost, getPosts}
+module.exports = { createPost, updatePost, deletePost, likePost, getPost, getPosts }

@@ -20,12 +20,14 @@ dotenv.config()
 //middlewares
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({extended: false}))
 app.use(helmet())
 app.use(morgan('common'))
 
 app.use('/api/users', userRoutes)
 app.use('/api/posts', postRoutes)
 app.use('/profile', express.static('uploads/profile'))
+app.use('/post', express.static('uploads/images'))
 
 Database()
 
