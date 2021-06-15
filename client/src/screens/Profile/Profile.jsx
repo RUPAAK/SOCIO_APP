@@ -3,9 +3,14 @@ import './Profile.css'
 import Navbar from '../../components/Navbar/Navbar'
 import Post from '../../components/Post/Post'
 import News from '../../components/News/News'
+import {useDispatch, useSelector} from 'react-redux'
 import { Users, Posts } from '../../dummyData'
 
 const Profile = () => {
+    const dispatch = useDispatch()
+    const userLoginDetails= useSelector(state=> state.userLoginDetails)
+    const {error, userDetails, loading}= userLoginDetails
+
     return (
         <>
             <div className="main_profile_container">
@@ -18,7 +23,7 @@ const Profile = () => {
                         </div>
                         <div className="details">
                             <img src="/uploads/posts/a.jpeg" alt="" className="profile" />
-                            <p className="username">RUPAK THAPA MAGAR</p>
+                            <p className="username">{userDetails.username}</p>
                         </div>
                     </div>
                     <div className="feed_main_container">

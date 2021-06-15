@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
 import Feed from '../../components/Feed/Feed'
 import Sidebar from '../../components/Sidebar/Sidebar'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 
 import  './HomeScreen.css'
 

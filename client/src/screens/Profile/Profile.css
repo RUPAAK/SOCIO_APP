@@ -39,6 +39,9 @@
     margin: 4rem 0 1.5rem 0;
     text-align: center;
 }
+.username{
+    margin-top: 8rem;
+}
 .profile{
     width: 150px;
     height: 150px;
