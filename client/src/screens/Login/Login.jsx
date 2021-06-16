@@ -28,7 +28,7 @@ const Login=({history})=>{
                     <div className="login_main_container">
                     <div className="login_container">
                         <div className="left_section">
-                            <span className="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>
+                            <span className="desc">Don't forget your password because there is no reset functionality yet</span>
                         </div>
                         <div className="right_container">
                             <form onSubmit={onSubmitHandler} className="form_container">

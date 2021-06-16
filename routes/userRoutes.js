@@ -2,6 +2,7 @@ const route= require('express').Router();
 const multer= require('multer')
 const { v4: uuidv4 } = require('uuid');
 const path= require('path')
+const protect= require('../config/Protect')
 
 const {register, login, update, deleteUser, getUser, follow, unFollow, profilePicture, coverPicture}= require('../controllers/userControllers')
 
@@ -22,7 +23,7 @@ route.post('/register', register)
 route.post('/login', login)
 route.put('/update/:id', update)
 route.delete('/deleteUser/:id', deleteUser)
-route.get('/profile/:id', getUser)
+route.get('/profile/:id', protect, getUser)
 route.put('/:id/follow', follow)
 route.put('/:id/unfollow', unFollow)
 route.put('/profile/:id/profile', upload.single('profile'), profilePicture)

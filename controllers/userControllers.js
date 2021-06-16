@@ -26,7 +26,7 @@ const login = errorAsync(async (req, res) => {
     } catch (error) {
         res.status(400)
         throw new Error(error)
-    }
+    }   
 })
 
 //register
@@ -110,7 +110,7 @@ const deleteUser = errorAsync(async (req, res) => {
         throw new Error('INVALID CREDIENTIAL')
     }
 })
-
+ 
 //getuser
 const getUser= errorAsync(async(req, res)=>{
     try {
