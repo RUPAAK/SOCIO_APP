@@ -83,6 +83,16 @@ const getUserPost= errorAsync(async(req, res)=>{
         throw new Error(error)
     }
 })
+const getUser= errorAsync(async(req, res)=>{
+    console.log('hi')
+    try {
+        const user= await User.findById(req.params.id)
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(400)
+        throw new Error(error)
+    }
+})
 
 //getonepost
 const getPost = errorAsync(async (req, res) => {
@@ -115,4 +125,4 @@ const getPosts = errorAsync(async (req, res) => {
 })
 
 
-module.exports = { createPost, updatePost, deletePost, likePost, getPost, getPosts, getUserPost }
+module.exports = { createPost, updatePost, deletePost, likePost, getPost, getPosts, getUserPost,getUser }

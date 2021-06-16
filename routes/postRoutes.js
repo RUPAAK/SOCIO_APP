@@ -4,7 +4,7 @@ const path= require('path')
 const protect= require('../config/Protect')
 const { v4: uuidv4 } = require('uuid');
 
-const {createPost, updatePost, deletePost,likePost, getPost, getPosts, getUserPost}= require('../controllers/postControllers')
+const {createPost, updatePost, deletePost,likePost, getPost, getPosts, getUserPost, getUser}= require('../controllers/postControllers')
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -23,7 +23,8 @@ route.put('/:id', updatePost)
 route.delete('/:id', deletePost)
 route.put('/:id/like', likePost)
 route.get('/userPosts/:id',  getUserPost)
+route.get('/user/:id', getUser)
 route.get('/:id', getPost)
-route.get('/timeline/allposts', getPosts)
+route.post('/timeline/allposts', getPosts)
 
 module.exports=route

@@ -19,7 +19,7 @@ const HomeScreen = ({history}) => {
         <Navbar />
         <div className="home_container">
             <Sidebar/>
-            {/* <Feed/> */}
+            <Feed/>
         </div>
        </>
     )

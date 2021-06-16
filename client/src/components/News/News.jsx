@@ -2,31 +2,24 @@ import React, {useState, useEffect} from 'react'
 import './News.css'
 import {MoreVert, ThumbUpAlt, ChatBubble, Share } from '@material-ui/icons'
 import {Users} from '../../dummyData'
+import axios from 'axios'
 
-const News = ({post, user}) => {
-    // const [likes, setlikes] = useState(like)
-    // const [testLiked, settestLiked] = useState(false)
-    console.log(post.createdAt.split(''))
-    // useEffect(() => {
-    //     dispatch
-    // }, [input])
-
-    const onClickHandler=()=>{
-        // if(testLiked){
-        //     setlikes(likes-1)
-        // }else{
-        //     setlikes(likes+1)
-        // }
-        // settestLiked(!testLiked)
-    }
+const News = ({post}) => {
+    const [userData, setuserData] = useState()
+    useEffect(()=>{
+        axios.get(`http://localhost:5000/api/posts/user/${post.userId}`).then((reponse)=>{
+            setuserData(reponse.data)
+        }).catch((e)=> console.log(e))
+    }, [])
+    console.log(userData)
     return (
         <>
             <div className="news_main_container">
                 <div className="news_container">
                     <div className="top_news_container">
                         <div className="top_news_left_container">
-                            <img src={user.profilePicture} className="news_profile" alt="profile" />
-                            <span className="news_user">{user.username}</span>
+                            <img src={userData && userData.profilePicture} className="news_profile" alt="profile" />
+                            <span className="news_user">{userData && userData.username}</span>
                             <span className="news_time">{post.createdAt}</span>
                         </div>
                             <MoreVert />
@@ -45,7 +38,7 @@ const News = ({post, user}) => {
                         </div>
                         <hr/>
                         <div className="add_like_comment_container">
-                            <span className="like_comment" onClick={onClickHandler}  ><ThumbUpAlt /></span>
+                            <span className="like_comment" ><ThumbUpAlt /></span>
                             <span className="like_comment"><ChatBubble htmlColor="grey"/></span>
                             <span className="like_comment"><Share htmlColor="darkgreen" /></span>
                         </div>

@@ -1,12 +1,16 @@
 import './Post.css'
 import {PermMedia, EmojiEmotions, LocationOn} from '@material-ui/icons'
+import {useSelector} from 'react-redux'
+
 
 const Post = () => {
+    const userLoginDetails= useSelector(state=> state.userLoginDetails)
+    const {userDetails}= userLoginDetails
     return (
         <div className="post_main_container">
             <div className="post_container">
                 <div className="top_part">
-                    <img src="/uploads/c.jpeg" alt="" className="postProfile" />
+                    <img src={userDetails.profilePicture} alt="" className="postProfile" />
                     <input type="text" placeholder="What's on your mind" className="postInput" />
                 </div>
                 <hr/>
