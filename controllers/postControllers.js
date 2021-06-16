@@ -68,6 +68,31 @@ const likePost = errorAsync(async (req, res) => {
     }
 })
 
+// userPosts
+
+const getUserPost= errorAsync(async(req, res)=>{
+    try {
+        const posts= await Post.find({userId: req.params.id})
+        const user= await User.findById(posts[0].userId).select('-password')
+        res.json({
+            posts, 
+            user
+        })
+    } catch (error) {
+        res.status(400)
+        throw new Error(error)
+    }
+})
+const getUser= errorAsync(async(req, res)=>{
+    console.log('hi')
+    try {
+        const user= await User.findById(req.params.id)
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(400)
+        throw new Error(error)
+    }
+})
 
 //getonepost
 const getPost = errorAsync(async (req, res) => {
@@ -81,7 +106,6 @@ const getPost = errorAsync(async (req, res) => {
 })
 
 //timelinepost
-
 const getPosts = errorAsync(async (req, res) => {
     try {
         const currentUser = await User.findById(req.body.userId)
@@ -101,4 +125,4 @@ const getPosts = errorAsync(async (req, res) => {
 })
 
 
-module.exports = { createPost, updatePost, deletePost, likePost, getPost, getPosts }
+module.exports = { createPost, updatePost, deletePost, likePost, getPost, getPosts, getUserPost,getUser }

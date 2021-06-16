@@ -1,15 +1,31 @@
-import React from 'react'
-import './Profile.css'
 import Navbar from '../../components/Navbar/Navbar'
+import React, {useState, useEffect} from 'react'
+import './Profile.css'
 import Post from '../../components/Post/Post'
 import News from '../../components/News/News'
+import {userPersonalPosts} from '../../actions/userActions'
 import {useDispatch, useSelector} from 'react-redux'
-import { Users, Posts } from '../../dummyData'
+import { Users} from '../../dummyData'
+import axios from 'axios'
 
-const Profile = () => {
+const Profile = ({match}) => {
+    const [profile, setprofile] = useState('')
     const dispatch = useDispatch()
+        
+    useEffect(() => {
+        axios.get(`http://localhost:5000/api/users/profile/${match.params.id}`).then((response)=>{
+            console.log(response.data)
+            setprofile(response.data)
+    })
+
+        dispatch(userPersonalPosts(match.params.id))
+    }, [])
+
     const userLoginDetails= useSelector(state=> state.userLoginDetails)
-    const {error, userDetails, loading}= userLoginDetails
+    const {userDetails }= userLoginDetails
+
+    const userPosts= useSelector(state=> state.userPosts)
+    const {posts, user}= userPosts
 
     return (
         <>
@@ -18,12 +34,12 @@ const Profile = () => {
                 <div className="profile_container">
                     <div className="top-container">
                         <div className="img-container">
-                            <img src={userDetails.coverPicture} alt="" className="cover" />
+                            <img src={profile.coverPicture} alt="" className="cover" />
                             <div className="frame"></div>
                         </div>
                         <div className="details">
-                            <img src={userDetails.profilePicture} alt="" className="profile" />
-                            <p className="username">{userDetails.username}</p>
+                            <img src={profile.profilePicture} alt="" className="profile" />
+                            <p className="username">{profile.username}</p>
                         </div>
                     </div>
                     <div className="feed_main_container">
@@ -47,13 +63,15 @@ const Profile = () => {
                                     <Post/>
                                 </div>
                                 <div className="mypost_section">
-                                {Posts.map(user=> <News key={user.id} user={user} />)}
+                                    {posts.posts.length == 0? (<h1>NO POSTS</h1>): (
+                                        posts.posts.map((post, index)=> <News key={index} post={post} user={posts.user}/>)
+                                    )}
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
         </>
     )
 }
