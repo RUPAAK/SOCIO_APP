@@ -113,8 +113,8 @@ const deleteUser = errorAsync(async (req, res) => {
  
 //getuser
 const getUser= errorAsync(async(req, res)=>{
+    console.log(req.params.id)
     try {
-
         const user= await User.findById(req.params.id)
         res.status(200).json({
             _id: user._id,
@@ -122,7 +122,8 @@ const getUser= errorAsync(async(req, res)=>{
             coverPicture: user.coverPicture,
             email: user.email,
             followers: user.followers,
-            followings: user.followings
+            followings: user.followings,
+            username: user.username
         })
     } catch (error) {
         res.status(400)

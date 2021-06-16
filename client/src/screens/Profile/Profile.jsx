@@ -1,18 +1,24 @@
 import Navbar from '../../components/Navbar/Navbar'
-import React, {useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import './Profile.css'
 import Post from '../../components/Post/Post'
 import News from '../../components/News/News'
 import {userPersonalPosts} from '../../actions/userActions'
 import {useDispatch, useSelector} from 'react-redux'
 import { Users} from '../../dummyData'
+import axios from 'axios'
 
 const Profile = ({match}) => {
-    
+    const [profile, setprofile] = useState('')
     const dispatch = useDispatch()
         
     useEffect(() => {
-        dispatch(userPersonalPosts(userDetails._id))
+        axios.get(`http://localhost:5000/api/users/profile/${match.params.id}`).then((response)=>{
+            console.log(response.data)
+            setprofile(response.data)
+    })
+
+        dispatch(userPersonalPosts(match.params.id))
     }, [])
 
     const userLoginDetails= useSelector(state=> state.userLoginDetails)
@@ -20,8 +26,6 @@ const Profile = ({match}) => {
 
     const userPosts= useSelector(state=> state.userPosts)
     const {posts, user}= userPosts
-    console.log(posts.posts)
-    console.log(posts.user)
 
     return (
         <>
@@ -30,12 +34,12 @@ const Profile = ({match}) => {
                 <div className="profile_container">
                     <div className="top-container">
                         <div className="img-container">
-                            <img src={userDetails.coverPicture} alt="" className="cover" />
+                            <img src={profile.coverPicture} alt="" className="cover" />
                             <div className="frame"></div>
                         </div>
                         <div className="details">
-                            <img src={userDetails.profilePicture} alt="" className="profile" />
-                            <p className="username">{userDetails.username}</p>
+                            <img src={profile.profilePicture} alt="" className="profile" />
+                            <p className="username">{profile.username}</p>
                         </div>
                     </div>
                     <div className="feed_main_container">

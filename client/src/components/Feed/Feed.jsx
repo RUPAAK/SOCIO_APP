@@ -15,7 +15,6 @@ const Feed = () => {
             setallPosts(response.data)
         })
     }, [])
-    console.log(allPosts)
     return (
         <div className="feed_main_container">
             <div className="feed_wrapper">
