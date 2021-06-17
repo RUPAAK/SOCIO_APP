@@ -1,18 +1,23 @@
 import React from 'react'
 import "./Sidebar.css"
 import { Person, People, Work, Videocam, Chat, ArrowDownward } from '@material-ui/icons'
-import { Users } from '../../dummyData'
+import { Link } from 'react-router-dom'
 import Friends from '../Friends/Friends'
+import { useSelector } from 'react-redux'
 
 const Sidebar = () => {
+    const userLoginDetails = useSelector(state => state.userLoginDetails)
+    const { userDetails } = userLoginDetails
+
     return (
         <div className="sidebar_main_container">
             <div className="sidebar_wrapper">
                 <ul className="sidebarlist">
-                    <li className="sidebarItem">
-                        <Person className="icons" />
-                        <span className="icon_text">Profile</span>
-                    </li>
+                    <Link to={`/profile/${userDetails._id}`}>
+                        <li className="sidebarItem">
+                            <Person className="icons" />
+                            <span className="icon_text">Profile</span>
+                        </li></Link>
                     <li className="sidebarItem">
                         <People className="icons" />
                         <span className="icon_text">Friends</span>
@@ -37,7 +42,7 @@ const Sidebar = () => {
                 <hr className="sidebarHr" />
 
                 <ul className="sidebarFriendList">
-                    {Users.map((friend) => <Friends friend={friend} />)}
+                    {userDetails.friends.map((friend) => <Friends friend={friend} />)}
                 </ul>
             </div>
         </div>

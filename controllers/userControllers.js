@@ -8,6 +8,13 @@ const login = errorAsync(async (req, res) => {
     try {
         const { email, password } = await req.body
         const user = await User.findOne({ email })
+        const friends= await Promise.all(
+            user.followings.map(friend=>{
+                return(
+                    User.findById(friend).select('-password').select('-email')
+                )
+            })
+        )
         if (user && await user.comparePassword(password)) {
             res.status(200).json({
                 _id: user._id,
@@ -17,6 +24,7 @@ const login = errorAsync(async (req, res) => {
                 coverPicture: user.coverPicture || '',
                 followers: user.followers || [],
                 followings: user.followings || [],
+                friends,
                 token: generateToken(user._ids)
             })
         } else {
@@ -113,9 +121,15 @@ const deleteUser = errorAsync(async (req, res) => {
  
 //getuser
 const getUser= errorAsync(async(req, res)=>{
-    console.log(req.params.id)
     try {
         const user= await User.findById(req.params.id)
+        const friends= await Promise.all(
+            user.followings.map(friend=>{
+                return(
+                    User.findById(friend).select('-password').select('-email')
+                )
+            })
+        )
         res.status(200).json({
             _id: user._id,
             profilePicture: user.profilePicture,
@@ -123,8 +137,9 @@ const getUser= errorAsync(async(req, res)=>{
             email: user.email,
             followers: user.followers,
             followings: user.followings,
-            username: user.username
-        })
+            username: user.username,
+            friends
+            })
     } catch (error) {
         res.status(400)
         throw new Error(error)

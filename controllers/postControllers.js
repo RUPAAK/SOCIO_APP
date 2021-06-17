@@ -7,14 +7,12 @@ const multer = require('multer')
 //createPost
 const createPost = errorAsync(async (req, res) => {
     const { userId, desc } = await req.body
-    const img = req.file.filename
-    console.log(req.file)
+    const img= req.file.filename
     try {
-        const newPost = new Post({ userId, desc, img })
+        const newPost = new Post({ userId, desc, img})
         const savedPost = await newPost.save()
+        console.log(savedPost)
         // const imageUrl= `${process.env.APP_BASE_URL}/${req.file.filename}`
-        console.log(req.file.filename)
-        console.log(savedPost.img)
         res.status(200).json({
             userId: savedPost.userId,
             desc: savedPost.desc,
