@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 
-route.post('/', upload.single('postImage'), createPost)
+route.post('/', upload.single('photoPp'), createPost)
 route.put('/:id', updatePost)
 route.delete('/:id', deletePost)
 route.put('/:id/like', likePost)
