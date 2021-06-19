@@ -16,7 +16,7 @@ const Navbar = ({}) => {
 
     const onClickHandler = (e) => {
         dispatch(userLogoutAction())
-        history.push('/login')
+        history.push('/')
     }
     return (
         <>
