@@ -99,6 +99,7 @@ const profilePicture= errorAsync(async(req, res)=>{
 const coverPicture= errorAsync(async(req, res)=>{
     const user= await User.findById(req.params.id)
     user.coverPicture=  `${process.env.APP_BASE_URL}/profile/${req.file.filename}`
+    console.log(user.coverPicture)
     const updatedUser= await user.save()
     res.status(201).json(updatedUser)
 })

@@ -2,5 +2,6 @@
     flex: 9;
 }
 .feed_wrapper{
+    width: 100%;
     padding: 20px;
 }

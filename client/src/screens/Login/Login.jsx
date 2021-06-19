@@ -13,7 +13,7 @@ const Login=({history})=>{
 
     useEffect(() => {
         if(userDetails){
-            history.push('/')
+            history.push('/home')
         }
     })
     

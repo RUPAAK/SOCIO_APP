@@ -8,8 +8,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Users } from '../../dummyData'
 import axios from 'axios'
 
-const Profile = ({ match }) => {
+const Profile = ({ match, }) => {
     const [profile, setprofile] = useState('')
+    const [changeProfile, setchangeProfile] = useState('')
+    const [changeCover, setchangeCover] = useState('')
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -26,6 +28,32 @@ const Profile = ({ match }) => {
     const userPosts = useSelector(state => state.userPosts)
     const { posts, user } = userPosts
 
+    const submitProfileHandler= async(e)=>{
+        e.preventDefault()
+        if(changeProfile.length===0){
+            alert('No Profile Choosen')
+
+        }else{
+            const formData= new FormData()
+            formData.append('profile', changeProfile)
+            await axios.put(`http://localhost:5000/api/users/profile/${userDetails._id}/profile`, formData)
+            window.location.reload()
+
+        }
+    }
+    const submitCoverHandler= async(e)=>{
+        e.preventDefault()
+        if(changeCover.length=== 0){
+            alert('No Cover Choosen')
+
+        }else{
+            const formData= new FormData()
+            formData.append('cover', changeCover)
+            await axios.put(`http://localhost:5000/api/users/profile/${userDetails._id}/cover`, formData)
+            window.location.reload()
+        }
+    }
+
     return (
         <>
             <div className="main_profile_container">
@@ -38,7 +66,26 @@ const Profile = ({ match }) => {
                         </div>
                         <div className="details">
                             <img src={profile.profilePicture} alt="" className="profile" />
-                            <p className="username">{profile.username}</p>
+                            <div className="username">
+                            <p >{profile.username}</p>
+                            <hr />
+                            <div>
+                            {userDetails._id === match.params.id ? (
+                                <div>
+                                    <form onSubmit={submitProfileHandler}>
+                                        <label for="profile">PROFILE</label>  
+                                        <input onChange={(e)=> setchangeProfile(e.target.files[0])} style={{display: 'none'}} type="file" name="profile" id="profile" />
+                                        <button type="submit">C.PROFILE</button>  
+                                    </form>
+                                    <form onSubmit={submitCoverHandler}>
+                                        <label for="cover">COVER</label>  
+                                        <input onChange={(e)=> setchangeCover(e.target.files[0])} style={{display: 'none'}} type="file" name="cover" id="cover" />
+                                        <button type="submit">C.COVER</button>  
+                                    </form>
+                                </div>
+                            ): ''}
+                            </div>
+                            </div>
                         </div>
                     </div>
                     <div className="feed_main_container">
@@ -63,7 +110,7 @@ const Profile = ({ match }) => {
                                 </div>
                                 <div className="mypost_section">
                                     {posts.posts.length === 0 ? (<h1>NO POSTS</h1>) : (
-                                        posts.posts.map((post, index) => <News key={index} post={post} user={posts.user} />)
+                                        posts.posts.reverse().map((post, index) => <News key={index} post={post} user={posts.user} />)
                                     )}
                                 </div>
                             </div>

@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 const Sidebar = () => {
     const userLoginDetails = useSelector(state => state.userLoginDetails)
     const { userDetails } = userLoginDetails
+    // userDetails.friends= []
 
     return (
         <div className="sidebar_main_container">
@@ -42,7 +43,8 @@ const Sidebar = () => {
                 <hr className="sidebarHr" />
 
                 <ul className="sidebarFriendList">
-                    {userDetails.friends.map((friend) => <Friends friend={friend} />)}
+                    {userDetails && userDetails.friends.length ==0 ? (<h3>No Friends</h3>): ''}
+                    {userDetails && userDetails.friends.map((friend) => <Friends friend={friend} />)}
                 </ul>
             </div>
         </div>

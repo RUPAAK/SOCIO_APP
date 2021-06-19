@@ -40,7 +40,7 @@ export const userPersonalPosts=(state={posts: {posts: []}}, action)=>{
         case USER_POST_SUCCESS:
             return {loading1: false, posts: action.payload}
         case USER_POST_FAIL:
-            return {loading1: false, error1: action.payload}
+            return {loading1: false, posts: {posts: []}, error1: action.payload}
         default:
             return state
     }

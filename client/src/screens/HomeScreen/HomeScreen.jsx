@@ -11,7 +11,7 @@ const HomeScreen = ({history}) => {
     const {loading, userDetails, error}= userLoginDetails;
     useEffect(()=>{
         if(!userDetails){
-            history.push('/login')
+            history.push('/')
         }
     })
     return (

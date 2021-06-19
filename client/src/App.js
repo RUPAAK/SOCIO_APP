@@ -10,8 +10,8 @@ import './App.css'
 const App = () => {
     return (
         <Router>
-            <Route exact path="/" component={HomeScreen}></Route>
-            <Route exact path="/login" component={Login}></Route>
+            <Route exact path="/" component={Login}></Route>
+            <Route exact path="/home" component={HomeScreen}></Route>
             <Route exact path="/signup" component={Register}></Route>
             <Route exact path="/profile/:id" component={Profile}></Route>
             <Route path="/profile/profile/:id?" component={Nourl}></Route>

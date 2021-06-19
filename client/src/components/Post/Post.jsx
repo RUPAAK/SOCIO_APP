@@ -20,13 +20,13 @@ const Post = () => {
         formData.append('desc', desc)
         await axios.post('http://localhost:5000/api/posts', formData).then((response)=> console.log(response))
         .catch((e)=> console.log(e))
-        setphoto('')
+        setdesc('')
     }
     return (
         <div className="post_main_container">
             <form className="post_container" onSubmit={onSubmitHandler}>
                 <div className="top_part">
-                    <img src={userDetails.profilePicture} alt="" className="postProfile" />
+                    <img src={userDetails && userDetails.profilePicture} alt="" className="postProfile" />
                     <input onChange={(e)=> setdesc(e.target.value)} type="text" placeholder="What's on your mind" value={desc} className="postInput" />
                 </div>
                 <hr/>
