@@ -1,6 +1,7 @@
 const errorAsync = require('express-async-handler')
 const Post = require('../models/postModels')
 const User = require('../models/userModel')
+const Comment= require('../models/commentModels')
 const multer = require('multer')
 
 
@@ -122,5 +123,46 @@ const getPosts = errorAsync(async (req, res) => {
     }
 })
 
+//comment
+const commentPost= (errorAsync(async(req, res)=>{
+    try {
+        const postId= req.params.id
+        const {cmt, userId, }= await req.body
+        const post= await Post.findById(postId)
+        await new Comment({cmt, userId}).save((err, data)=>{
+            if(err) throw new Error(err)
+            if(data){
+                post.comment.push(data._id)
+                post.save((error, savedData)=>{
+                    if(error) throw new Error(err)
+                    if(savedData){
+                        res.status(200).json(savedData)
+                    }
+                })
+            }
+        })
 
-module.exports = { createPost, updatePost, deletePost, likePost, getPost, getPosts, getUserPost,getUser }
+        
+    } catch (error) {
+        res.status(400)
+        throw new Error(error)
+    }
+}))
+
+//getComment
+const getComment= errorAsync(async(req, res)=>{
+    try {
+        const post= await Post.findById(req.params.id)
+        let comments= []
+        for(let i=0; i< post.comment.length; i++){
+            const comment= await Comment.findById(post.comment[i]).populate('userId')
+            comments.push(comment)
+        }
+        res.status(200).json(comments)
+    } catch (error) {
+        res.status(400)
+        throw new Error(error)  
+    }
+})
+
+module.exports = { createPost, updatePost, deletePost, likePost, getPost, getPosts, getUserPost,getUser, commentPost, getComment }

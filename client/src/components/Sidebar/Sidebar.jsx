@@ -43,7 +43,7 @@ const Sidebar = () => {
                 <hr className="sidebarHr" />
 
                 <ul className="sidebarFriendList">
-                    {userDetails && userDetails.friends.length ==0 ? (<h3>No Friends</h3>): ''}
+                    {userDetails && userDetails.friends.length ===0 ? (<h3>No Friends</h3>): ''}
                     {userDetails && userDetails.friends.map((friend) => <Friends friend={friend} />)}
                 </ul>
             </div>

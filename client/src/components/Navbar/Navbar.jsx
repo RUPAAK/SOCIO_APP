@@ -8,11 +8,11 @@ import './Navbar.css'
 import { useHistory } from "react-router-dom";
 
 
-const Navbar = ({}) => {
+const Navbar = () => {
     let history = useHistory();
     const dispatch = useDispatch()
     const userLoginDetails = useSelector(state => state.userLoginDetails)
-    const { error, userDetails, loading } = userLoginDetails
+    const {  userDetails } = userLoginDetails
 
     const onClickHandler = (e) => {
         dispatch(userLogoutAction())

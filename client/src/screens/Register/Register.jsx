@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState} from 'react'
 import { userRegisterAction } from '../../actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 import './Register.css'
@@ -11,7 +11,7 @@ const Register = ({ history }) => {
     const [confirmpassword, setconfirmpassword] = useState("")
 
     const userRegisterDetails = useSelector(state => state.userRegisterDetails)
-    const { loading, userDetails, success, error } = userRegisterDetails
+    const { userDetails, error } = userRegisterDetails
     const dispatch = useDispatch()
 
     const onSubmitHandler = (e) => {
@@ -38,7 +38,7 @@ const Register = ({ history }) => {
                             <input onChange={(e) => setconfirmpassword(e.target.value)} placeholder="Enter Confirm Password" type="password" className="register_input" />
                             <button type="submit" className="register_button">Sign Up</button>
                             <hr className="hr" />
-                            <Link className="loginaccount" to="/login">
+                            <Link className="loginaccount" to="/">
                                     Log In
                             </Link>
                         </form>
