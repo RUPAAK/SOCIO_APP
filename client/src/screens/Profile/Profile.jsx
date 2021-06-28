@@ -5,53 +5,61 @@ import Post from '../../components/Post/Post'
 import News from '../../components/News/News'
 import { userPersonalPosts } from '../../actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
-import { Users } from '../../dummyData'
 import axios from 'axios'
 
 const Profile = ({ match, }) => {
     const [profile, setprofile] = useState('')
     const [changeProfile, setchangeProfile] = useState('')
     const [changeCover, setchangeCover] = useState('')
+    const [addFriend, setaddFriend] = useState()
+    const [checkFriend, setcheckFriend] = useState(false)
+
     const dispatch = useDispatch()
 
     useEffect(() => {
+        {checkFriend? setaddFriend("Remove Friend") : setaddFriend("Add Friend")}
+        
         axios.get(`http://localhost:5000/api/users/profile/${match.params.id}`).then((response) => {
             setprofile(response.data)
         })
 
         dispatch(userPersonalPosts(match.params.id))
-    }, [])
+    }, [dispatch, match.params.id])
 
     const userLoginDetails = useSelector(state => state.userLoginDetails)
     const { userDetails } = userLoginDetails
 
     const userPosts = useSelector(state => state.userPosts)
-    const { posts, user } = userPosts
+    const { posts } = userPosts
 
-    const submitProfileHandler= async(e)=>{
+    const submitProfileHandler = async (e) => {
         e.preventDefault()
-        if(changeProfile.length===0){
+        if (changeProfile.length === 0) {
             alert('No Profile Choosen')
 
-        }else{
-            const formData= new FormData()
+        } else {
+            const formData = new FormData()
             formData.append('profile', changeProfile)
             await axios.put(`http://localhost:5000/api/users/profile/${userDetails._id}/profile`, formData)
             window.location.reload()
 
         }
     }
-    const submitCoverHandler= async(e)=>{
+    const submitCoverHandler = async (e) => {
         e.preventDefault()
-        if(changeCover.length=== 0){
+        if (changeCover.length === 0) {
             alert('No Cover Choosen')
 
-        }else{
-            const formData= new FormData()
+        } else {
+            const formData = new FormData()
             formData.append('cover', changeCover)
             await axios.put(`http://localhost:5000/api/users/profile/${userDetails._id}/cover`, formData)
             window.location.reload()
         }
+    }
+
+    const addFriendHandler=async()=>{
+        await axios.put(`http://localhost:5000/api/users/${match.params.id}/follow`, {userId: userDetails._id})
     }
 
     return (
@@ -67,24 +75,25 @@ const Profile = ({ match, }) => {
                         <div className="details">
                             <img src={profile.profilePicture} alt="" className="profile" />
                             <div className="username">
-                            <p >{profile.username}</p>
-                            <hr />
-                            <div>
-                            {userDetails._id === match.params.id ? (
+                                <p className="nameAddText">{profile.username}</p>
+                                {userDetails._id === match.params.id? '': <button onClick={addFriendHandler} className="nameAddText">{addFriend}</button>}
+                                <hr />
                                 <div>
-                                    <form onSubmit={submitProfileHandler}>
-                                        <label for="profile">PROFILE</label>  
-                                        <input onChange={(e)=> setchangeProfile(e.target.files[0])} style={{display: 'none'}} type="file" name="profile" id="profile" />
-                                        <button type="submit">C.PROFILE</button>  
-                                    </form>
-                                    <form onSubmit={submitCoverHandler}>
-                                        <label for="cover">COVER</label>  
-                                        <input onChange={(e)=> setchangeCover(e.target.files[0])} style={{display: 'none'}} type="file" name="cover" id="cover" />
-                                        <button type="submit">C.COVER</button>  
-                                    </form>
+                                    {userDetails._id === match.params.id ? (
+                                        <div>
+                                            <form onSubmit={submitProfileHandler}>
+                                                <label for="profile">PROFILE</label>
+                                                <input onChange={(e) => setchangeProfile(e.target.files[0])} style={{ display: 'none' }} type="file" name="profile" id="profile" />
+                                                <button type="submit">C.PROFILE</button>
+                                            </form>
+                                            <form onSubmit={submitCoverHandler}>
+                                                <label for="cover">COVER</label>
+                                                <input onChange={(e) => setchangeCover(e.target.files[0])} style={{ display: 'none' }} type="file" name="cover" id="cover" />
+                                                <button type="submit">C.COVER</button>
+                                            </form>
+                                        </div>
+                                    ) : ''}
                                 </div>
-                            ): ''}
-                            </div>
                             </div>
                         </div>
                     </div>

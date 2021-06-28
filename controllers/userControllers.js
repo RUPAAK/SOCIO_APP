@@ -171,27 +171,27 @@ const follow= errorAsync(async(req, res)=>{
 })
 
 
-//unfollow
-const unFollow= errorAsync(async(req, res)=>{
-    if(req.body.userId !== req.params.id){
-        try {
-            const user= await User.findById(req.params.id)
-            const currentUser= await User.findById(req.body.userId)
-            if(user.followers.includes(req.body.userId)){
-                await user.updateOne({$pull:{followers: req.body.userId}})
-                await currentUser.updateOne({$pull:{followings: req.params.id}})
-                res.status(200).json('USER HAVE BEEN UNFOLLOWED')
-            }else{
-                res.status(403).json('USER ALREADY UNFOLLOWING')
-            }
-        } catch (error) {
-            res.status(500)
-            throw new Error(error)
-        }
-    }else{
-        res.status(403)
-        throw new Error('CANNOT UNFOLLOW YOURSELF')
-    }
-})
+// //unfollow
+// const unFollow= errorAsync(async(req, res)=>{
+//     if(req.body.userId !== req.params.id){
+//         try {
+//             const user= await User.findById(req.params.id)
+//             const currentUser= await User.findById(req.body.userId)
+//             if(user.followers.includes(req.body.userId)){
+//                 await user.updateOne({$pull:{followers: req.body.userId}})
+//                 await currentUser.updateOne({$pull:{followings: req.params.id}})
+//                 res.status(200).json('USER HAVE BEEN UNFOLLOWED')
+//             }else{
+//                 res.status(403).json('USER ALREADY UNFOLLOWING')
+//             }
+//         } catch (error) {
+//             res.status(500)
+//             throw new Error(error)
+//         }
+//     }else{
+//         res.status(403)
+//         throw new Error('CANNOT UNFOLLOW YOURSELF')
+//     }
+// })
 
-module.exports = { login, register, update, deleteUser, getUser, follow, unFollow, profilePicture, coverPicture}
+module.exports = { login, register, update, deleteUser, getUser, follow, profilePicture, coverPicture}

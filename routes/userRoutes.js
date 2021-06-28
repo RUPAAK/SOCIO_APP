@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const path= require('path')
 const protect= require('../config/Protect')
 
-const {register, login, update, deleteUser, getUser, follow, unFollow, profilePicture, coverPicture}= require('../controllers/userControllers')
+const {register, login, update, deleteUser, getUser, follow, profilePicture, coverPicture}= require('../controllers/userControllers')
 
 
 
@@ -25,7 +25,7 @@ route.put('/update/:id', update)
 route.delete('/deleteUser/:id', deleteUser)
 route.get('/profile/:id' , getUser)
 route.put('/:id/follow', follow)
-route.put('/:id/unfollow', unFollow)
+// route.put('/:id/unfollow', unFollow)
 route.put('/profile/:id/profile', upload.single('profile'), profilePicture)
 route.put('/profile/:id/cover', upload.single('cover'), coverPicture)
 
